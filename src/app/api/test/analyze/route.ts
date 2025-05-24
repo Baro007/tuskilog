@@ -132,7 +132,7 @@ export async function POST(request: NextRequest) {
         const prompt = createAnalysisPrompt(answers);
         
         const completion = await openai.chat.completions.create({
-          model: "gpt-4",
+          model: "gpt-4o",
           messages: [
             {
               role: "system",
@@ -143,8 +143,8 @@ export async function POST(request: NextRequest) {
               content: prompt
             }
           ],
-          temperature: 0.3,
-          max_tokens: 2000,
+          temperature: 0.9,
+          max_tokens: 8000,
         });
 
         const aiResponse = completion.choices[0]?.message?.content;
