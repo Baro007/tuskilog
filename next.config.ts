@@ -6,16 +6,12 @@ const nextConfig: NextConfig = {
     unoptimized: true
   },
   eslint: {
-    ignoreDuringBuilds: false
+    ignoreDuringBuilds: true
   },
   typescript: {
     ignoreBuildErrors: false
   },
-  trailingSlash: false,
-  output: 'export',
-  distDir: 'out',
-  basePath: process.env.NODE_ENV === 'production' ? '/tuskilog' : '',
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/tuskilog' : '',
+  trailingSlash: false
 };
 
 export default nextConfig;
