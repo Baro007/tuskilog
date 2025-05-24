@@ -11,13 +11,7 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: false
   },
-  env: {
-    CUSTOM_KEY: process.env.CUSTOM_KEY,
-  },
-  trailingSlash: false,
-  generateBuildId: async () => {
-    return 'my-build-id'
-  }
+  trailingSlash: false
 };
 
 export default nextConfig;

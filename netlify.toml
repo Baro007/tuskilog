@@ -1,22 +1,12 @@
 [build]
   publish = ".next"
-  command = "npm run build"
+  command = "npm install && npm run build"
 
 [build.environment]
-  NODE_VERSION = "18.17.0"
-  NPM_FLAGS = "--version"
+  NODE_VERSION = "18"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
-
-[context.production]
-  command = "npm run build"
-
-[context.deploy-preview]
-  command = "npm run build"
-
-[context.branch-deploy]
-  command = "npm run build"
 
 # Headers for security
 [[headers]]
