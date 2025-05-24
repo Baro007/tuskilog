@@ -19,7 +19,7 @@ AI destekli kişilik analizi ile Türkiye'de TUS'ta bulunan uzmanlık dalları a
 - **Database**: Supabase (PostgreSQL)
 - **AI**: OpenAI GPT-4o
 - **PDF**: jsPDF + html2canvas
-- **Deployment**: Vercel
+- **Deployment**: Vercel/Netlify
 
 ## 🚀 Kurulum
 
@@ -68,18 +68,57 @@ EMAIL_FROM=noreply@tuskilog.com
 npm run dev
 ```
 
-## 📦 Deployment (Vercel)
+## 📦 Deployment
 
-### 1. Vercel Setup
+### Option 1: Netlify Deployment (Önerilen)
+
+#### 1. GitHub'a Push
+```bash
+git add .
+git commit -m "Deploy to Netlify"
+git push origin main
+```
+
+#### 2. Netlify Setup
+1. [Netlify](https://netlify.com) hesabı oluşturun
+2. "New site from Git" butonuna tıklayın
+3. GitHub repository'nizi seçin
+4. Build ayarları:
+   - Build command: `npm run build`
+   - Publish directory: `.next`
+   - Node version: `18.17.0`
+
+#### 3. Environment Variables
+Netlify Dashboard > Site Settings > Environment Variables:
+```env
+OPENAI_API_KEY=your_openai_api_key
+NEXTAUTH_SECRET=your_random_secret
+NEXTAUTH_URL=https://your-app.netlify.app
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+EMAIL_SERVER_HOST=smtp.gmail.com
+EMAIL_SERVER_PORT=587
+EMAIL_SERVER_USER=your_email@gmail.com
+EMAIL_SERVER_PASSWORD=your_app_password
+EMAIL_FROM=noreply@tuskilog.app
+```
+
+#### 4. Deploy
+Environment variables eklendikten sonra "Deploy site" butonuna tıklayın.
+
+### Option 2: Vercel Deployment
+
+#### 1. Vercel Setup
 ```bash
 npm install -g vercel
 vercel login
 ```
 
-### 2. Environment Variables
+#### 2. Environment Variables
 Vercel dashboard'da tüm environment variables'ları ekleyin.
 
-### 3. Deploy
+#### 3. Deploy
 ```bash
 vercel --prod
 ```
@@ -100,6 +139,13 @@ vercel --prod
 - [ ] `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 - [ ] `SUPABASE_SERVICE_ROLE_KEY`
 - [ ] Email konfigürasyonu
+
+### Deployment Dosyaları
+- [ ] `netlify.toml` - Netlify konfigürasyonu
+- [ ] `public/_headers` - Güvenlik header'ları
+- [ ] `public/_redirects` - URL routing
+- [ ] `.nvmrc` - Node.js version
+- [ ] `.env.example` - Environment variables template
 
 ## 📊 Sistem Özellikleri
 
