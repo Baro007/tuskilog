@@ -3,9 +3,17 @@ import { NextAuthOptions } from 'next-auth'
 import EmailProvider from 'next-auth/providers/email'
 import { createClient } from '@supabase/supabase-js'
 
+if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
+  throw new Error('NEXT_PUBLIC_SUPABASE_URL environment variable is not set')
+}
+
+if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
+  throw new Error('SUPABASE_SERVICE_ROLE_KEY environment variable is not set')
+}
+
 const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY
 )
 
 export const authOptions: NextAuthOptions = {
@@ -24,43 +32,56 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
-      if (account?.provider === 'email') {
-        // Kullanıcıyı Supabase'e kaydet
-        const { data, error } = await supabase
-          .from('users')
-          .upsert({
-            email: user.email,
-            name: user.name,
-            last_sign_in: new Date().toISOString(),
-          })
-          .select()
-          .single()
+      try {
+        if (account?.provider === 'email') {
+          const { data, error } = await supabase
+            .from('users')
+            .upsert({
+              email: user.email,
+              name: user.name,
+              last_sign_in: new Date().toISOString(),
+            })
+            .select()
+            .single()
 
-        if (error) {
-          console.error('Error saving user to Supabase:', error)
-          return false
+          if (error) {
+            console.error('Error saving user to Supabase:', error)
+            return false
+          }
+
+          user.id = data.id
+          return true
         }
-
-        user.id = data.id
         return true
+      } catch (error) {
+        console.error('SignIn error:', error)
+        return false
       }
-      return true
     },
     async session({ session, token }) {
-      if (session.user?.email) {
-        // Kullanıcı bilgilerini Supabase'den al
-        const { data } = await supabase
-          .from('users')
-          .select('*')
-          .eq('email', session.user.email)
-          .single()
+      try {
+        if (session.user?.email) {
+          const { data, error } = await supabase
+            .from('users')
+            .select('*')
+            .eq('email', session.user.email)
+            .single()
 
-        if (data) {
-          session.user.id = data.id
-          session.user.createdAt = data.created_at
+          if (error) {
+            console.error('Error fetching user data:', error)
+            return session
+          }
+
+          if (data) {
+            session.user.id = data.id
+            session.user.createdAt = data.created_at
+          }
         }
+        return session
+      } catch (error) {
+        console.error('Session error:', error)
+        return session
       }
-      return session
     },
   },
   pages: {
@@ -76,4 +97,4 @@ export const authOptions: NextAuthOptions = {
 
 const handler = NextAuth(authOptions)
 
-export { handler as GET, handler as POST } 
+export { handler as GET, handler as POST }

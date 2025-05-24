@@ -1,7 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import SessionWrapper from "@/components/SessionWrapper";
+import dynamic from 'next/dynamic';
+
+const SessionWrapper = dynamic(() => import('@/components/SessionWrapper'), {
+  ssr: false
+});
 
 const inter = Inter({ subsets: ["latin"] });
 
