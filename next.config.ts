@@ -11,7 +11,11 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: false
   },
-  trailingSlash: false
+  trailingSlash: false,
+  output: 'export',
+  distDir: 'out',
+  basePath: process.env.NODE_ENV === 'production' ? '/tuskilog' : '',
+  assetPrefix: process.env.NODE_ENV === 'production' ? '/tuskilog' : '',
 };
 
 export default nextConfig;
