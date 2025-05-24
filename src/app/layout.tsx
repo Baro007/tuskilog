@@ -7,7 +7,10 @@ const SessionWrapper = dynamic(() => import('@/components/SessionWrapper'), {
   ssr: false
 });
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ 
+  subsets: ["latin"],
+  variable: '--font-inter'
+});
 
 export const metadata: Metadata = {
   title: "TUSKİLOG - TUS Uzmanlık Tercih Sistemi",
@@ -28,7 +31,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="tr">
-      <body className={inter.className}>
+      <body className={`${inter.variable} ${inter.className}`}>
         <SessionWrapper>
           <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
             {children}
