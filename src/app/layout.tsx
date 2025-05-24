@@ -1,12 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import dynamic from "next/dynamic";
-
-const SessionWrapper = dynamic(() => import("@/components/SessionWrapper"), {
-  ssr: false,
-  loading: () => <div>Loading...</div>
-});
+import SessionWrapper from "@/components/SessionWrapper";
 
 const inter = Inter({ 
   subsets: ["latin"],
