@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import SessionWrapper from "@/components/SessionWrapper";
+import SessionProvider from '@/components/providers/SessionProvider';
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -28,11 +28,11 @@ export default function RootLayout({
   return (
     <html lang="tr">
       <body className={`${inter.variable} ${inter.className}`}>
-        <SessionWrapper>
+        <SessionProvider>
           <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
             {children}
           </div>
-        </SessionWrapper>
+        </SessionProvider>
       </body>
     </html>
   );
