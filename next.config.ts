@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 
+// Cache-busting comment
 const nextConfig: NextConfig = {
   serverExternalPackages: ['@supabase/supabase-js'],
   images: {
